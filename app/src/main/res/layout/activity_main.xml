@@ -8,14 +8,26 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/classifyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="startRec"
+        app:layout_constraintBottom_toTopOf="@+id/loadButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777"
+        app:srcCompat="@drawable/sedan_icon_28" />
+
+    <Button
+        android:id="@+id/loadButton"
+        android:layout_width="121dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="152dp"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sedan_icon_28" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

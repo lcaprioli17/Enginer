@@ -14,7 +14,7 @@
         android:gravity="center"
         android:lines="5"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/stopButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />
@@ -26,6 +26,7 @@
         android:layout_marginTop="35dp"
         android:text="Recording"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/output"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -45,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/stopButton"
         android:layout_width="128dp"
         android:layout_height="74dp"
         android:layout_marginBottom="48dp"
