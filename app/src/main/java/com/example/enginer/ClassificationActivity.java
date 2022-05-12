@@ -24,7 +24,7 @@ public class ClassificationActivity extends AppCompatActivity {
 
     Float probabilityThreshold = 0.3f;
     TextView textView;
-    String path= "car_model.tflite";
+    String path= "secondary_car_model.tflite";
     AudioClassifier classifier;
     TensorAudio tensor;
     AudioRecord record;
@@ -52,17 +52,14 @@ public class ClassificationActivity extends AppCompatActivity {
                     tensor.load(record);
                     List<Classifications> output = classifier.classify(tensor);
 
-                    Category category1 = output.get(0).getCategories().get(0);
-                    Category category2 = output.get(1).getCategories().get(0);
+                    Category category = output.get(1).getCategories().get(0);
 
                     String outputStr;
 
-                    if (category1.getLabel().equals("Vehicle")) {
-                        outputStr = category1.getLabel() + ": " + category2.getLabel() + ": " + category2.getScore() + "\n";
-                        textView.setText(outputStr);
-                    }else{
-                        textView.setText("No car found.");
-                    }
+                    /*textView.setText(output.get(1).getCategories().toString());*/
+
+                    outputStr = "Vehicle: " + category.getLabel() + ": " + category.getScore() + "\n";
+                    textView.setText(outputStr);
 
                     /*List<Category> finalOutput1 = categories;
                     runOnUiThread(() -> {
