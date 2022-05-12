@@ -62,4 +62,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
 
     }
+
+    public void loadFile(View view) {
+
+        Intent i = new Intent(this, LoadActivity.class);
+        startActivity(i);
+
+    }
 }
