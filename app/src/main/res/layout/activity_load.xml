@@ -21,11 +21,11 @@
 
     <Button
         android:id="@+id/backButton"
-        android:layout_width="109dp"
-        android:layout_height="59dp"
+        android:layout_width="128dp"
+        android:layout_height="64dp"
         android:layout_marginBottom="128dp"
-        android:text="Back"
         android:onClick="backToMain"
+        android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

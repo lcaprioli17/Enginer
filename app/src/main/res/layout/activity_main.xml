@@ -23,13 +23,13 @@
 
     <Button
         android:id="@+id/loadButton"
-        android:layout_width="121dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="152dp"
-        android:text="Load"
+        android:layout_width="128dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="128dp"
         android:onClick="loadFile"
+        android:text="Load"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
