@@ -112,7 +112,7 @@ public class LoadActivity extends AppCompatActivity {
 
     public void openFile(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setTypeAndNormalize("audio/*");
+        intent.setTypeAndNormalize("audio/x-wav");
         startActivityForResult(intent,requestcode);
     }
 
