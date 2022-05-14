@@ -56,7 +56,7 @@ public class ClassificationActivity extends AppCompatActivity {
 
                     /*textView.setText(output.get(1).getCategories().toString());*/
 
-                    outputStr = "Vehicle: " + category.getLabel() + ": " + category.getScore() + "\n";
+                    outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
                     textView.setText(outputStr);
 
                     /*List<Category> finalOutput1 = categories;

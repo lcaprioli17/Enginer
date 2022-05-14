@@ -87,7 +87,7 @@ public class LoadActivity extends AppCompatActivity {
                 floatsForInference = new float[size];
 
                 for(int i = 0; i < size-1; i++)
-                    floatsForInference[i] = (floatsForInference[i] / 32768F);
+                    floatsForInference[i] = (wavList.get(i)/* / 32768F*/);
 
                 tensor.load(floatsForInference);
                 List<Classifications> output = classifier.classify(tensor);
@@ -98,7 +98,7 @@ public class LoadActivity extends AppCompatActivity {
 
                 /*textView.setText(output.get(1).getCategories().toString());*/
 
-                outputStr = "Vehicle: " + category.getLabel() + ": " + category.getScore() + "\n";
+                outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
                 result.setText(outputStr);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -112,7 +112,7 @@ public class LoadActivity extends AppCompatActivity {
 
     public void openFile(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setTypeAndNormalize("audio/wav");
+        intent.setTypeAndNormalize("audio/*");
         startActivityForResult(intent,requestcode);
     }
 
