@@ -87,7 +87,7 @@ public class LoadActivity extends AppCompatActivity {
                 floatsForInference = new float[size];
 
                 for(int i = 0; i < size-1; i++)
-                    floatsForInference[i] = (wavList.get(i)/* / 32768F*/);
+                    floatsForInference[i] = (wavList.get(i) / 32768F);
 
                 tensor.load(floatsForInference);
                 List<Classifications> output = classifier.classify(tensor);
