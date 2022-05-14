@@ -22,9 +22,7 @@ import java.util.TimerTask;
 
 public class ClassificationActivity extends AppCompatActivity {
 
-    Float probabilityThreshold = 0.3f;
     TextView textView;
-    String path= "secondary_car_model.tflite";
     AudioClassifier classifier;
     TensorAudio tensor;
     AudioRecord record;
@@ -39,7 +37,7 @@ public class ClassificationActivity extends AppCompatActivity {
         textView = findViewById(R.id.output);
         TextView recorderSpecsTextView = findViewById(R.id.textViewAudioRecorderSpecs);
         try {
-            classifier = AudioClassifier.createFromFile(this,path );
+            classifier = AudioClassifier.createFromFile(this, MainActivity.path );
             tensor = classifier.createInputTensorAudio();
             TensorAudio.TensorAudioFormat format = classifier.getRequiredTensorAudioFormat();
             String recorderSpecs = "Number Of Channels: " +  format.getChannels() + "\n" +

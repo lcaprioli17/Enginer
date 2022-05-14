@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.enginer"
-        minSdk 23
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,9 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-audio:0.3.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.3.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.3.0'
+    // prepare input file for model
+    implementation("com.google.guava:guava:31.0.1-android")
+    implementation 'com.arthenica:ffmpeg-kit-full:4.5'
 
     def fragment_version = "1.4.1"
     def activity_version = "1.4.0"

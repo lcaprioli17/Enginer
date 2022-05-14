@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoadActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="222dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="32dp"
-        android:text="Load a .wav audio"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/backButton"
         android:layout_width="128dp"
@@ -29,4 +16,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/loadButton"
+        android:layout_width="128dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="256dp"
+        android:text="File..."
+        android:onClick="openFile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/resultView"
+        android:layout_width="256dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="256dp"
+        android:text="Load a .wav file..."
+        android:gravity="center"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

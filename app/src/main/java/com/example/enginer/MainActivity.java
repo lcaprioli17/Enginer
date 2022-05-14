@@ -32,6 +32,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final Float probabilityThreshold = 0.3f;
+    public static final String path= "secondary_car_model.tflite";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
     private boolean permissionToRecordAccepted = false;
