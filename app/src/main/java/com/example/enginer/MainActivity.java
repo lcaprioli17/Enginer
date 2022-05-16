@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -35,40 +36,47 @@ public class MainActivity extends AppCompatActivity {
     public static final Float probabilityThreshold = 0.3f;
     public static final String path= "secondary_car_model.tflite";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
-    private boolean permissionToRecordAccepted = false;
+    private static final String recPermission = Manifest.permission.RECORD_AUDIO;
+    private String [] sendRecPermission = {recPermission};
 
     //Audio recording permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                startRec();
+            }else{
+                Toast.makeText(MainActivity.this, "Permission to use the microphone denied...", Toast.LENGTH_SHORT).show();
+            }
         }
-        if (!permissionToRecordAccepted ) finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
 
 
-    //Start recording button
+    // Request permission to record
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void startRec(View view) {
+    public void askRec(View view) {
+        if(ContextCompat.checkSelfPermission(this, recPermission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, sendRecPermission, REQUEST_RECORD_AUDIO_PERMISSION);
+        }else{
+            startRec();
+        }
+    }
 
+    public void startRec(){
         Intent i = new Intent(this, ClassificationActivity.class);
         startActivity(i);
-
     }
 
     public void loadFile(View view) {
-
         Intent i = new Intent(this, LoadActivity.class);
         startActivity(i);
-
     }
+
 }

@@ -52,15 +52,26 @@ public class LoadActivity extends AppCompatActivity {
     TensorAudio tensor;
     AudioRecord record;
     private static final int REQUEST_READ_PERMISSION = 1;
-    private String [] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-    private boolean permissionToReadAccepted = false;
+    private static final String readPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
+    private String [] sendReadPermission = {readPermission};
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_READ_PERMISSION) {
+            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openFile();
+            }else{
+                Toast.makeText(LoadActivity.this, "Permission to read the storage denied...", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
         result = findViewById(R.id.resultView);
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_READ_PERMISSION);
     }
 
     @Override
@@ -121,25 +132,24 @@ public class LoadActivity extends AppCompatActivity {
         }
     }
 
-    public void openFile(View view){
+    public void askFile(View view){
+        if(ContextCompat.checkSelfPermission(this, readPermission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, sendReadPermission, REQUEST_READ_PERMISSION);
+        }else{
+            openFile();
+        }
+    }
+
+    public void openFile(){
         Intent intent = new Intent();
         intent.setType("audio/x-wav");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent,REQUEST_READ_PERMISSION);
     }
 
     public void backToMain(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_READ_PERMISSION) {
-            permissionToReadAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        }
-        if (!permissionToReadAccepted ) finish();
     }
 
 }

@@ -23,7 +23,7 @@
         android:layout_height="64dp"
         android:layout_marginBottom="256dp"
         android:text="File..."
-        android:onClick="openFile"
+        android:onClick="askFile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
