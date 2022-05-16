@@ -59,7 +59,7 @@ public class LoadActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_READ_PERMISSION) {
-            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
                 openFile();
             }else{
                 Toast.makeText(LoadActivity.this, "Permission to read the storage denied...", Toast.LENGTH_SHORT).show();
@@ -75,62 +75,60 @@ public class LoadActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestcode, int resultcode, Intent data){
-        super.onActivityResult(requestcode, resultcode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(REQUEST_READ_PERMISSION, PackageManager.PERMISSION_GRANTED, data);
 
-        super.onActivityResult(requestcode,resultcode,data);
         Context context=getApplicationContext();
-        if(requestcode== requestcode && resultcode == Activity.RESULT_OK){
-            if(data==null)
-                return;
-            Uri uri= data.getData();
-            String src = uri.getPath();
-            try {
-                File upload = new File(src);
-                classifier = AudioClassifier.createFromFile(this, MainActivity.path);
-                tensor = classifier.createInputTensorAudio();
-                File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
-                if (!tmpFile.exists()){
-                    tmpFile.createNewFile();
-                }
-                FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
-                List<Short> wavList = new ArrayList<>();
-                String s;
-                if(upload.isFile())
-                    s = "ok";
-                else
-                    s = "no";
-                Toast.makeText(context, s,Toast.LENGTH_SHORT).show();
-                LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(src));
-                while(true){
-                    try{
-                        Short d = dis.readShort();
-                        wavList.add(d);
-                    }catch(EOFException e){
-                        break;
-                    }
-                }
-                int size = wavList.size();
-                float floatsForInference[];
-                floatsForInference = new float[size];
-                for(int i = 0; i < size-1; i++)
-                    floatsForInference[i] = (wavList.get(i) / 32768F);
-                tensor.load(floatsForInference);
-                List<Classifications> output = classifier.classify(tensor);
-                Category category = output.get(1).getCategories().get(0);
-                String outputStr;
-
-                outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
-                result.setText(outputStr);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                result.setText("fag1");
-            } catch (IOException e) {
-                e.printStackTrace();
-                result.setText("fag2");
+        if(data==null)
+            return;
+        Uri uri= data.getData();
+        String src = uri.getPath();
+        try {
+            File upload = new File(src);
+            classifier = AudioClassifier.createFromFile(this, MainActivity.path);
+            tensor = classifier.createInputTensorAudio();
+            File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
+            if (!tmpFile.exists()){
+                tmpFile.createNewFile();
             }
+            FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
+            List<Short> wavList = new ArrayList<>();
+            String s;
+            if(upload.isFile())
+                s = "ok";
+            else
+                s = "no";
+            Toast.makeText(context, s,Toast.LENGTH_SHORT).show();
+            LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(src));
+            while(true){
+                try{
+                    Short d = dis.readShort();
+                    wavList.add(d);
+                }catch(EOFException e){
+                    break;
+                }
+            }
+            int size = wavList.size();
+            float floatsForInference[];
+            floatsForInference = new float[size];
+            for(int i = 0; i < size-1; i++)
+                floatsForInference[i] = (wavList.get(i) / 32768F);
+            tensor.load(floatsForInference);
+            List<Classifications> output = classifier.classify(tensor);
+            Category category = output.get(1).getCategories().get(0);
+            String outputStr;
+
+            outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
+            result.setText(outputStr);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            result.setText("fag1");
+        } catch (IOException e) {
+            e.printStackTrace();
+            result.setText("fag2");
         }
     }
+
 
     public void askFile(View view){
         if(ContextCompat.checkSelfPermission(this, readPermission) != PackageManager.PERMISSION_GRANTED) {
