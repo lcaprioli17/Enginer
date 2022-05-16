@@ -66,45 +66,23 @@ public class LoadActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestcode, int resultcode, Intent data){
         super.onActivityResult(requestcode, resultcode, data);
-        if(requestcode == REQUEST_READ_PERMISSION){
 
-            if(resultcode == Activity.RESULT_OK && data != null){
-                String realPath = null;
-                Uri uriFromPath = null;
-                realPath = getPathForAudio(this, data.getData());
-                System.out.println("******************************************" + realPath);
-                File upload = new File(realPath);
-                String s;
-                if(upload.isFile())
-                    s = "ok";
-                else
-                    s = "no";
-                Toast.makeText(getApplicationContext(), s,Toast.LENGTH_SHORT).show();
-
-                //uriFromPath = Uri.fromFile(new File(realPath));
-
-            }
-        }
-
-/*        super.onActivityResult(requestcode,resultcode,data);
+        super.onActivityResult(requestcode,resultcode,data);
         Context context=getApplicationContext();
-
         if(requestcode== requestcode && resultcode == Activity.RESULT_OK){
             if(data==null)
                 return;
             Uri uri= data.getData();
-            // System.out.println("*****************\n" + uri);
             String src = uri.getPath();
-            // Toast.makeText(context,src,Toast.LENGTH_SHORT).show();
             try {
                 File upload = new File(src);
                 classifier = AudioClassifier.createFromFile(this, MainActivity.path);
                 tensor = classifier.createInputTensorAudio();
-                *//* File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
+                File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
                 if (!tmpFile.exists()){
                     tmpFile.createNewFile();
                 }
-                FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());*//*
+                FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
                 List<Short> wavList = new ArrayList<>();
                 String s;
                 if(upload.isFile())
@@ -124,18 +102,12 @@ public class LoadActivity extends AppCompatActivity {
                 int size = wavList.size();
                 float floatsForInference[];
                 floatsForInference = new float[size];
-
                 for(int i = 0; i < size-1; i++)
                     floatsForInference[i] = (wavList.get(i) / 32768F);
-
                 tensor.load(floatsForInference);
                 List<Classifications> output = classifier.classify(tensor);
-
                 Category category = output.get(1).getCategories().get(0);
-
                 String outputStr;
-
-                *//*textView.setText(output.get(1).getCategories().toString());*//*
 
                 outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
                 result.setText(outputStr);
@@ -146,7 +118,7 @@ public class LoadActivity extends AppCompatActivity {
                 e.printStackTrace();
                 result.setText("fag2");
             }
-        }*/
+        }
     }
 
     public void openFile(View view){
@@ -168,35 +140,6 @@ public class LoadActivity extends AppCompatActivity {
             permissionToReadAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
         }
         if (!permissionToReadAccepted ) finish();
-    }
-
-    public static String getPathForAudio(Context context, Uri uri)
-    {
-        String result = null;
-        Cursor cursor = null;
-
-        try {
-            String[] proj = { MediaStore.Audio.Media.DATA };
-            cursor = context.getContentResolver().query(uri, proj, null, null, null);
-            if (cursor == null) {
-                result = uri.getPath();
-            } else {
-                cursor.moveToFirst();
-                int column_index = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA);
-                result = cursor.getString(column_index);
-                cursor.close();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return result;
     }
 
 }
