@@ -50,7 +50,6 @@ public class LoadActivity extends AppCompatActivity {
     TextView result;
     AudioClassifier classifier;
     TensorAudio tensor;
-    AudioRecord record;
     private static final int REQUEST_READ_PERMISSION = 1;
     private static final String readPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String [] sendReadPermission = {readPermission};
