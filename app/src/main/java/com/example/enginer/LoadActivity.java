@@ -82,6 +82,7 @@ public class LoadActivity extends AppCompatActivity {
             return;
         Uri uri= data.getData();
         String src = uri.getPath();
+
         try {
             File upload = new File(src);
             classifier = AudioClassifier.createFromFile(this, MainActivity.path);
@@ -141,7 +142,8 @@ public class LoadActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("audio/x-wav");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,REQUEST_READ_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, REQUEST_READ_PERMISSION);
     }
 
     public void backToMain(View view) {
