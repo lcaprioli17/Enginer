@@ -98,7 +98,7 @@ public class LoadActivity extends AppCompatActivity {
             else
                 s = "no";
             Toast.makeText(context, s,Toast.LENGTH_SHORT).show();
-            LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(src));
+            LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(tmpFile));
             while(true){
                 try{
                     Short d = dis.readShort();
