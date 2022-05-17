@@ -22,6 +22,7 @@ import android.media.AudioRecord;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     public static final String path= "secondary_car_model.tflite";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
+    Button settings;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;
     private SensorEventListener listener = new SensorEventListener() {
@@ -82,7 +84,21 @@ public class MainActivity extends AppCompatActivity{
         askRec();
         if(ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED)
             sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        settings= (Button) findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettings();
+            }
+        });
+
     }
+
+    private void openSettings() {
+        Intent intent= new Intent(this,SettingsActivity.class);
+        startActivity(intent);
+    }
+
 
     // Request permission to record
     @RequiresApi(api = Build.VERSION_CODES.M)

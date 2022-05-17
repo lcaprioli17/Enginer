@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2C3149"
     tools:context=".MainActivity">
 
     <ImageButton
@@ -31,4 +32,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2D3250"
+        android:backgroundTint="#282D49"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconTint="#FFFFFF"
+        tools:layout_editor_absoluteX="289dp"
+        tools:layout_editor_absoluteY="24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

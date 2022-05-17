@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Enginer">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoadActivity"
             android:exported="false" />
         <activity
