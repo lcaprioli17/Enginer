@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(MainActivity.this, "Permission to use the microphone granted, touch the car to start classification...", Toast.LENGTH_SHORT).show();
+                sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
             }else{
                 Toast.makeText(MainActivity.this, "Permission to use the microphone denied...", Toast.LENGTH_SHORT).show();
             }
