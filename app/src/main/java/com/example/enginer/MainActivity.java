@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity{
 
     public static final Float probabilityThreshold = 0.3f;
     public static final String path= "secondary_car_model.tflite";
@@ -45,6 +45,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;
+    private SensorEventListener listener = new SensorEventListener() {
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                if ((sensorEvent.values[0] - 9.81 > 1) || (sensorEvent.values[1] - 9.81 > 1) || (sensorEvent.values[2] - 9.81 > 1)) {
+                    startRec();
+                    sensorManager.unregisterListener(listener);
+                }
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // unused
+        }
+    };
 
     //Audio recording permission
     @Override
@@ -64,8 +78,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         askRec();
+        if(ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED)
+            sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     // Request permission to record
@@ -93,19 +108,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(i);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED){
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                if ((sensorEvent.values[0] - 9.81 > 1) || (sensorEvent.values[1] - 9.81 > 1)) {
-                    startRec();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
 }
