@@ -75,6 +75,8 @@ public class LoadActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        /********** Application cannot find path in the Uri passed as a Result **********/
         super.onActivityResult(REQUEST_READ_PERMISSION, PackageManager.PERMISSION_GRANTED, data);
 
         Context context=getApplicationContext();
@@ -99,6 +101,8 @@ public class LoadActivity extends AppCompatActivity {
             else
                 s = "no";
             Toast.makeText(context, s,Toast.LENGTH_SHORT).show();
+            /********** END **********/
+
             LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(tmpFile));
             while(true){
                 try{

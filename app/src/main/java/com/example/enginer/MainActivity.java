@@ -9,8 +9,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.TriggerEvent;
+import android.hardware.TriggerEventListener;
 import android.media.AudioRecord;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,8 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-//Toast.makeText(MainActivity.this,"Permission Denied.Closing the app...",Toast.LENGTH_SHORT).show();
-
 public class MainActivity extends AppCompatActivity {
 
     public static final Float probabilityThreshold = 0.3f;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                startRec();
+                Toast.makeText(MainActivity.this, "Permission to use the microphone granted, touch the car to start classification...", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(MainActivity.this, "Permission to use the microphone denied...", Toast.LENGTH_SHORT).show();
             }
@@ -56,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        askRec();
     }
-
 
     // Request permission to record
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         }else{
             startRec();
         }
+    }
+
+    public void askRec() {
+        if(ContextCompat.checkSelfPermission(this, recPermission) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, sendRecPermission, REQUEST_RECORD_AUDIO_PERMISSION);
     }
 
     public void startRec(){
