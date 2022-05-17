@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
 import static android.Manifest.permission.RECORD_AUDIO;
 
+import org.checkerframework.checker.units.qual.A;
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
@@ -34,13 +37,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     public static final Float probabilityThreshold = 0.3f;
     public static final String path= "secondary_car_model.tflite";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
     private String [] sendRecPermission = {recPermission};
+    private SensorManager sensorManager;
 
     //Audio recording permission
     @Override
@@ -59,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         askRec();
     }
 
@@ -87,4 +93,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED){
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                if ((sensorEvent.values[0] - 9.81 > 1) || (sensorEvent.values[1] - 9.81 > 1)) {
+                    startRec();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
 }
