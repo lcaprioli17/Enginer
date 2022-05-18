@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity{
     public static final String path= "secondary_car_model.tflite";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
-    Button settings;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;
     private Switch simpleSwitch1;
@@ -73,9 +72,9 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(MainActivity.this, "Permission to use the microphone granted, touch the car to start classification...", Toast.LENGTH_SHORT).show();
-                sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
             }else{
                 Toast.makeText(MainActivity.this, "Permission to use the microphone denied...", Toast.LENGTH_SHORT).show();
+                simpleSwitch1.setChecked(false);
             }
         }
     }
@@ -84,22 +83,20 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         simpleSwitch1 = (Switch) findViewById(R.id.switch1);
         simpleSwitch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-
+                    askRec();
+                    sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
                 } else {
                     sensorManager.unregisterListener(listener);
-                    }
+                }
             }
         });
-//                    (ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED)
+
         sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
-        askRec();
-
-
     }
 
     // Request permission to record

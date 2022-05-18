@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/sedan_icon_28"
+        android:icon="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/sedan_icon_28"
+        android:roundIcon="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508"
         android:supportsRtl="true"
         android:theme="@style/Theme.Enginer">
         <activity

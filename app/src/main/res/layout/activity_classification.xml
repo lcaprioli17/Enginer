@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2C3149"
     tools:context=".ClassificationActivity">
 
     <TextView
@@ -13,6 +14,7 @@
         android:layout_marginBottom="48dp"
         android:gravity="center"
         android:lines="5"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/stopButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +28,7 @@
         android:layout_marginTop="35dp"
         android:text="Recording"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/output"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +43,7 @@
         android:layout_height="94dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

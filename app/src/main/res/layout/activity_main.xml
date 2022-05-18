@@ -9,17 +9,18 @@
 
     <ImageButton
         android:id="@+id/classifyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_width="185dp"
+        android:layout_height="163dp"
+        android:background="@android:color/transparent"
         android:onClick="askRec"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/loadButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.777"
-        app:srcCompat="@drawable/sedan_icon_28" />
+        app:srcCompat="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508" />
 
     <Button
         android:id="@+id/loadButton"
@@ -38,7 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
-        android:text="Switch"
+        android:minHeight="48dp"
+        android:text="Use accelerometer"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:switchPadding="50dp"
         app:layout_constraintBottom_toTopOf="@+id/classifyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
