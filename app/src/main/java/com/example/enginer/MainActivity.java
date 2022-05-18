@@ -23,6 +23,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity{
     Button settings;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;
+    private Switch simpleSwitch1;
+
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent sensorEvent) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -80,25 +84,23 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
-        askRec();
-        if(ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED)
-            sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        settings= (Button) findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSettings();
+        simpleSwitch1 = (Switch) findViewById(R.id.switch1);
+        simpleSwitch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
+                } else {
+                    sensorManager.unregisterListener(listener);
+                    }
             }
         });
+//                    (ContextCompat.checkSelfPermission(this, recPermission) == PackageManager.PERMISSION_GRANTED)
+        sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
+        askRec();
+
 
     }
-
-    private void openSettings() {
-        Intent intent= new Intent(this,SettingsActivity.class);
-        startActivity(intent);
-    }
-
 
     // Request permission to record
     @RequiresApi(api = Build.VERSION_CODES.M)
