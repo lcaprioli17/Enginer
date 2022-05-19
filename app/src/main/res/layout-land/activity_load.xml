@@ -9,40 +9,41 @@
 
     <Button
         android:id="@+id/backButton"
-        android:layout_width="128dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="128dp"
+        android:layout_width="88dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="16dp"
         android:onClick="backToMain"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/loadButton"
-        android:layout_width="128dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="64dp"
+        android:layout_width="88dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="16dp"
         android:onClick="askFile"
         android:text="File..."
         app:layout_constraintBottom_toTopOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/resultView"
         android:layout_width="256dp"
         android:layout_height="64dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="Load a .wav file..."
         android:textColor="@color/white"
-        android:textSize="25dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/loadButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.638" />
 </androidx.constraintlayout.widget.ConstraintLayout>
