@@ -57,13 +57,7 @@ public class LoadActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_READ_PERMISSION) {
-            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
-                openFile();
-            }else{
-                Toast.makeText(LoadActivity.this, "Permission to read the storage denied...", Toast.LENGTH_SHORT).show();
-            }
-        }
+        Permissions.grantPermissions(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -76,54 +70,16 @@ public class LoadActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
 
-        /********** Application cannot find path in the Uri passed as a Result **********/
         super.onActivityResult(REQUEST_READ_PERMISSION, PackageManager.PERMISSION_GRANTED, data);
 
-        Context context=getApplicationContext();
         if(data==null)
             return;
         Uri uri= data.getData();
         String src = uri.getPath();
 
         try {
-            File upload = new File(src);
-            classifier = AudioClassifier.createFromFile(this, MainActivity.path);
-            tensor = classifier.createInputTensorAudio();
-            File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
-            if (!tmpFile.exists()){
-                tmpFile.createNewFile();
-            }
-            FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
-            List<Short> wavList = new ArrayList<>();
-            String s;
-            if(upload.isFile())
-                s = "ok";
-            else
-                s = "no";
-            Toast.makeText(context, s,Toast.LENGTH_SHORT).show();
-            /********** END **********/
-
-            LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(tmpFile));
-            while(true){
-                try{
-                    Short d = dis.readShort();
-                    wavList.add(d);
-                }catch(EOFException e){
-                    break;
-                }
-            }
-            int size = wavList.size();
-            float floatsForInference[];
-            floatsForInference = new float[size];
-            for(int i = 0; i < size-1; i++)
-                floatsForInference[i] = (wavList.get(i) / 32768F);
-            tensor.load(floatsForInference);
-            List<Classifications> output = classifier.classify(tensor);
-            Category category = output.get(1).getCategories().get(0);
-            String outputStr;
-
-            outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
-            result.setText(outputStr);
+            Classification classification = new Classification(this);
+            result.setText(classification.classify(convert(src)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             result.setText("fag1");
@@ -135,9 +91,7 @@ public class LoadActivity extends AppCompatActivity {
 
 
     public void askFile(View view){
-        if(ContextCompat.checkSelfPermission(this, readPermission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, sendReadPermission, REQUEST_READ_PERMISSION);
-        }else{
+        if(Permissions.checkPermissions(this, this, readPermission, sendReadPermission)){
             openFile();
         }
     }
@@ -153,6 +107,41 @@ public class LoadActivity extends AppCompatActivity {
     public void backToMain(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+
+    public float [] convert(String src) throws IOException {
+        /********** Application cannot find file in the Uri passed as a Result **********/
+        File upload = new File(src);
+        File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
+        if (!tmpFile.exists()){
+            tmpFile.createNewFile();
+        }
+        FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
+        List<Short> wavList = new ArrayList<>();
+        String s;
+        if(upload.isFile())
+            s = "ok";
+        else
+            s = "no";
+        Toast.makeText(this, s,Toast.LENGTH_SHORT).show();
+        /********** END **********/
+
+        LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(tmpFile));
+        while(true){
+            try{
+                Short d = dis.readShort();
+                wavList.add(d);
+            }catch(EOFException e){
+                break;
+            }
+        }
+        int size = wavList.size();
+        float floatsForInference[];
+        floatsForInference = new float[size];
+        for(int i = 0; i < size-1; i++)
+            floatsForInference[i] = (wavList.get(i) / 32768F);
+
+        return floatsForInference;
     }
 
 }

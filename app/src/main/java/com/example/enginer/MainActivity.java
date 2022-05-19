@@ -42,9 +42,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
-    public static final Float probabilityThreshold = 0.3f;
+    // public static final Float probabilityThreshold = 0.3f;
     public static final String path= "secondary_car_model.tflite";
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;
@@ -52,30 +51,23 @@ public class MainActivity extends AppCompatActivity{
 
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent sensorEvent) {
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                if ((sensorEvent.values[0] - 9.81 > 1) || (sensorEvent.values[1] - 9.81 > 1) || (sensorEvent.values[2] - 9.81 > 1)) {
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+                if ((sensorEvent.values[0] > 1) || (sensorEvent.values[1] > 1) || (sensorEvent.values[2] > 1)) {
                     startRec();
                     sensorManager.unregisterListener(listener);
                 }
             }
         }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            // unused
-        }
+        public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     };
 
     //Audio recording permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            if( grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(MainActivity.this, "Permission to use the microphone granted, touch the car to start classification...", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(MainActivity.this, "Permission to use the microphone denied...", Toast.LENGTH_SHORT).show();
-                simpleSwitch1.setChecked(false);
-            }
+        if(!Permissions.grantPermissions(requestCode, permissions, grantResults, this)){
+            simpleSwitch1.setChecked(false);
         }
     }
 
@@ -89,7 +81,7 @@ public class MainActivity extends AppCompatActivity{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     askRec();
-                    sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+                    sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION), SensorManager.SENSOR_DELAY_NORMAL);
                 } else {
                     sensorManager.unregisterListener(listener);
                 }
@@ -102,16 +94,12 @@ public class MainActivity extends AppCompatActivity{
     // Request permission to record
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void askRec(View view) {
-        if(ContextCompat.checkSelfPermission(this, recPermission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, sendRecPermission, REQUEST_RECORD_AUDIO_PERMISSION);
-        }else{
+        if(Permissions.checkPermissions(this, this, recPermission, sendRecPermission))
             startRec();
-        }
     }
 
     public void askRec() {
-        if(ContextCompat.checkSelfPermission(this, recPermission) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, sendRecPermission, REQUEST_RECORD_AUDIO_PERMISSION);
+        Permissions.checkPermissions(this, this, recPermission, sendRecPermission);
     }
 
     public void startRec(){

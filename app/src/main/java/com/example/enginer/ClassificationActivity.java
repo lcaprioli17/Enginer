@@ -22,12 +22,10 @@ import java.util.TimerTask;
 
 public class ClassificationActivity extends AppCompatActivity {
 
-    TextView textView;
-    AudioClassifier classifier;
-    TensorAudio tensor;
-    AudioRecord record;
-    TimerTask task;
-    Timer t;
+    private TextView textView;
+    private AudioRecord record;
+    private TimerTask task;
+    private Timer t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,34 +35,17 @@ public class ClassificationActivity extends AppCompatActivity {
         textView = findViewById(R.id.output);
         TextView recorderSpecsTextView = findViewById(R.id.textViewAudioRecorderSpecs);
         try {
-            classifier = AudioClassifier.createFromFile(this, MainActivity.path );
-            tensor = classifier.createInputTensorAudio();
-            TensorAudio.TensorAudioFormat format = classifier.getRequiredTensorAudioFormat();
+            Classification classification = new Classification(this);
+            TensorAudio.TensorAudioFormat format = classification.classifier.getRequiredTensorAudioFormat();
             String recorderSpecs = "Number Of Channels: " +  format.getChannels() + "\n" +
                     "Sample Rate: " + format.getSampleRate();
             recorderSpecsTextView.setText(recorderSpecs);
-            record = classifier.createAudioRecord();
+            record = classification.classifier.createAudioRecord();
             record.startRecording();
             task = new TimerTask() {
                 public void run() {
-                    tensor.load(record);
-                    List<Classifications> output = classifier.classify(tensor);
 
-                    Category category = output.get(1).getCategories().get(0);
-
-                    String outputStr;
-
-                    // textView.setText(output.get(1).getCategories().toString());
-
-                    outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
-                    textView.setText(outputStr);
-
-                    /*List<Category> finalOutput1 = categories;
-                    runOnUiThread(() -> {
-                        if (finalOutput1.isEmpty())
-                            textView.setText("Could not identify the car");
-                        else
-                            textView.setText(outputStr.toString());*/
+                    textView.setText(classification.classify(record));
 
                     }
             };
