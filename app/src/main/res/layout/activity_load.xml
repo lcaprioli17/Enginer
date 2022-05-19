@@ -38,7 +38,7 @@
         android:gravity="center"
         android:text="Load a .wav file..."
         android:textColor="@color/white"
-        android:textSize="25dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/loadButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
