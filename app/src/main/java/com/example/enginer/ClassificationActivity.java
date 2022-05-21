@@ -26,6 +26,7 @@ public class ClassificationActivity extends AppCompatActivity {
     private AudioRecord record;
     private TimerTask task;
     private Timer t;
+    private Classification classification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class ClassificationActivity extends AppCompatActivity {
         textView = findViewById(R.id.output);
         TextView recorderSpecsTextView = findViewById(R.id.textViewAudioRecorderSpecs);
         try {
-            Classification classification = new Classification(this);
+            classification = new Classification(this);
             TensorAudio.TensorAudioFormat format = classification.classifier.getRequiredTensorAudioFormat();
             String recorderSpecs = "Number Of Channels: " +  format.getChannels() + "\n" +
                     "Sample Rate: " + format.getSampleRate();

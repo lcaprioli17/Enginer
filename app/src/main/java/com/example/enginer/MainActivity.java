@@ -31,6 +31,7 @@ import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 import org.checkerframework.checker.units.qual.A;
+import org.tensorflow.lite.TensorFlowLite;
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
@@ -43,7 +44,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity{
 
     // public static final Float probabilityThreshold = 0.3f;
-    public static final String path= "secondary_car_model.tflite";
     private static final String recPermission = Manifest.permission.RECORD_AUDIO;
     private String [] sendRecPermission = {recPermission};
     private SensorManager sensorManager;

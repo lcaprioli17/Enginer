@@ -9,10 +9,10 @@
         android:allowBackup="true"
         android:icon="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Enginer"
-        android:requestLegacyExternalStorage="true">
+        android:theme="@style/Theme.Enginer">
         <activity
             android:name=".LoadActivity"
             android:exported="false" />

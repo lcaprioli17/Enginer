@@ -51,6 +51,7 @@ public class LoadActivity extends AppCompatActivity {
     private static final int REQUEST_READ_PERMISSION = 1;
     private static final String readPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String [] sendReadPermission = {readPermission};
+    Classification classification;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -76,7 +77,7 @@ public class LoadActivity extends AppCompatActivity {
         String src = uri.getPath();
 
         try {
-            Classification classification = new Classification(this);
+            classification = new Classification(this);
             result.setText(classification.classify(convert(src)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
