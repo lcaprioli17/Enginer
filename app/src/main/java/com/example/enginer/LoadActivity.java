@@ -48,8 +48,6 @@ import java.util.List;
 public class LoadActivity extends AppCompatActivity {
 
     TextView result;
-    AudioClassifier classifier;
-    TensorAudio tensor;
     private static final int REQUEST_READ_PERMISSION = 1;
     private static final String readPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String [] sendReadPermission = {readPermission};
@@ -110,6 +108,7 @@ public class LoadActivity extends AppCompatActivity {
     }
 
     public float [] convert(String src) throws IOException {
+
         /********** Application cannot find file in the Uri passed as a Result **********/
         File upload = new File(src);
         File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");

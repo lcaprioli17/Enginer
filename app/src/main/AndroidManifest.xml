@@ -3,7 +3,6 @@
     package="com.example.enginer">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -12,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/cb70d98a_ab48_4f82_bbbf_00620daf9508"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Enginer">
+        android:theme="@style/Theme.Enginer"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".LoadActivity"
             android:exported="false" />
