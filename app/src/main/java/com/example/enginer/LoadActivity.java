@@ -37,13 +37,17 @@ import org.tensorflow.lite.support.label.Category;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LoadActivity extends AppCompatActivity {
 
@@ -74,18 +78,28 @@ public class LoadActivity extends AppCompatActivity {
         if(data==null)
             return;
         Uri uri= data.getData();
-        String src = uri.getPath();
 
+        //result.setText((uri.getPath()));
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             classification = new Classification(this);
-            result.setText(classification.classify(convert(src)));
-        } catch (FileNotFoundException e) {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            result.setText(classification.classify(convert(inputStream)));
+            /*
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)));
+            String line;
+            while ((line = reader.readLine()) != null)
+                stringBuilder.append(line);
+            */
+        } catch (Exception e) {
             e.printStackTrace();
-            result.setText("fag1");
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setText("fag2");
         }
+/*
+
+            classification = new Classification(this);
+            result.setText(classification.classify(convert(src)));
+
+ */
     }
 
 
@@ -108,9 +122,10 @@ public class LoadActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public float [] convert(String src) throws IOException {
+    public float [] convert(InputStream input) throws IOException {
 
         /********** Application cannot find file in the Uri passed as a Result **********/
+        /*
         File upload = new File(src);
         File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
         if (!tmpFile.exists()){
@@ -124,9 +139,11 @@ public class LoadActivity extends AppCompatActivity {
         else
             s = "no";
         Toast.makeText(this, s,Toast.LENGTH_SHORT).show();
+         */
         /********** END **********/
 
-        LittleEndianDataInputStream dis = new LittleEndianDataInputStream(new FileInputStream(tmpFile));
+        LittleEndianDataInputStream dis = new LittleEndianDataInputStream(input);
+        List<Short> wavList = new ArrayList<>();
         while(true){
             try{
                 Short d = dis.readShort();

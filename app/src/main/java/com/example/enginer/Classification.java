@@ -15,7 +15,7 @@ public class Classification {
 
     public AudioClassifier classifier;
     public TensorAudio tensor;
-    public static final String modelPath = "secondary_car_model.tflite";
+    public static final String modelPath = "newest_car_model.tflite";
 
     public Classification(Context context) throws IOException {
         classifier = AudioClassifier.createFromFile(context, modelPath);
