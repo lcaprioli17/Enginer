@@ -79,8 +79,8 @@ public class LoadActivity extends AppCompatActivity {
             return;
         Uri uri= data.getData();
 
-        //result.setText((uri.getPath()));
-        StringBuilder stringBuilder = new StringBuilder();
+        // result.setText((uri.getPath()));
+        // StringBuilder stringBuilder = new StringBuilder();
         try {
             classification = new Classification(this);
             InputStream inputStream = getContentResolver().openInputStream(uri);

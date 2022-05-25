@@ -58,7 +58,7 @@ public class ClassificationActivity extends AppCompatActivity {
     }
 
     public void stopRec(View view) {
-        record.startRecording();
+        record.stop();
         t.cancel();
         t.purge();
 
