@@ -6,56 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.media.AudioRecord;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.arthenica.ffmpegkit.FFmpegKit;
 import com.google.common.io.LittleEndianDataInputStream;
 
-import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.label.Category;
-import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
-
-import java.io.BufferedReader;
 import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class LoadActivity extends AppCompatActivity {
 
-    TextView result;
+    private TextView result;
     private static final int REQUEST_READ_PERMISSION = 1;
     private static final String readPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String [] sendReadPermission = {readPermission};
-    Classification classification;
+    private Classification classification;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -83,8 +54,11 @@ public class LoadActivity extends AppCompatActivity {
         // StringBuilder stringBuilder = new StringBuilder();
         try {
             classification = new Classification(this);
+            result.setText("Classifying...");
             InputStream inputStream = getContentResolver().openInputStream(uri);
-            result.setText(classification.classify(convert(inputStream)));
+            LoadAudioThread loadAudioThread = new LoadAudioThread(inputStream, classification, result);
+            loadAudioThread.execute();
+            // result.setText(classification.classify(convert(inputStream)));
             /*
             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)));
             String line;
