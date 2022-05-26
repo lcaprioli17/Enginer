@@ -11,14 +11,7 @@ import android.view.View;
 
 import android.net.Uri;
 import android.widget.TextView;
-
-import com.google.common.io.LittleEndianDataInputStream;
-
-import java.io.EOFException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoadActivity extends AppCompatActivity {
 

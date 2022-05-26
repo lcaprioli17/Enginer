@@ -1,45 +1,20 @@
 package com.example.enginer;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
-import android.hardware.TriggerEventListener;
-import android.media.AudioRecord;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
-
-import static android.Manifest.permission.CAPTURE_AUDIO_OUTPUT;
-import static android.Manifest.permission.RECORD_AUDIO;
-
-import org.checkerframework.checker.units.qual.A;
-import org.tensorflow.lite.TensorFlowLite;
-import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
-import org.tensorflow.lite.task.core.BaseOptions;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
