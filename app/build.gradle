@@ -46,4 +46,5 @@ dependencies {
     def activity_version = "1.4.0"
     implementation "androidx.activity:activity:$activity_version"
     implementation "androidx.fragment:fragment:$fragment_version"
+
 }
