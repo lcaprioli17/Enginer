@@ -30,8 +30,6 @@ public class Classification {
 
         String outputStr;
 
-        // textView.setText(output.get(1).getCategories().toString());
-
         outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
 
         return outputStr;
@@ -44,8 +42,6 @@ public class Classification {
         Category category = output.get(1).getCategories().get(0);
 
         String outputStr;
-
-        // textView.setText(output.get(1).getCategories().toString());
 
         outputStr = "Vehicle: " + category.getLabel() + ", Score: " + category.getScore() + "\n";
 

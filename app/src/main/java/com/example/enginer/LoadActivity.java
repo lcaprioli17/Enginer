@@ -50,30 +50,16 @@ public class LoadActivity extends AppCompatActivity {
             return;
         Uri uri= data.getData();
 
-        // result.setText((uri.getPath()));
-        // StringBuilder stringBuilder = new StringBuilder();
         try {
             classification = new Classification(this);
             result.setText("Classifying...");
             InputStream inputStream = getContentResolver().openInputStream(uri);
             LoadAudioThread loadAudioThread = new LoadAudioThread(inputStream, classification, result);
             loadAudioThread.execute();
-            // result.setText(classification.classify(convert(inputStream)));
-            /*
-            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)));
-            String line;
-            while ((line = reader.readLine()) != null)
-                stringBuilder.append(line);
-            */
         } catch (Exception e) {
             e.printStackTrace();
         }
-/*
 
-            classification = new Classification(this);
-            result.setText(classification.classify(convert(src)));
-
- */
     }
 
 
@@ -94,45 +80,6 @@ public class LoadActivity extends AppCompatActivity {
     public void backToMain(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-    }
-
-    public float [] convert(InputStream input) throws IOException {
-
-        /********** Application cannot find file in the Uri passed as a Result **********/
-        /*
-        File upload = new File(src);
-        File tmpFile = File.createTempFile(Double.toString(System.currentTimeMillis()), ".wav");
-        if (!tmpFile.exists()){
-            tmpFile.createNewFile();
-        }
-        FFmpegKit.execute("-i " + upload + " -ar 16000 -ac 1 -y " + tmpFile.getAbsolutePath());
-        List<Short> wavList = new ArrayList<>();
-        String s;
-        if(upload.isFile())
-            s = "ok";
-        else
-            s = "no";
-        Toast.makeText(this, s,Toast.LENGTH_SHORT).show();
-         */
-        /********** END **********/
-
-        LittleEndianDataInputStream dis = new LittleEndianDataInputStream(input);
-        List<Short> wavList = new ArrayList<>();
-        while(true){
-            try{
-                Short d = dis.readShort();
-                wavList.add(d);
-            }catch(EOFException e){
-                break;
-            }
-        }
-        int size = wavList.size();
-        float floatsForInference[];
-        floatsForInference = new float[size];
-        for(int i = 0; i < size-1; i++)
-            floatsForInference[i] = (wavList.get(i) / 32768F);
-
-        return floatsForInference;
     }
 
 }
