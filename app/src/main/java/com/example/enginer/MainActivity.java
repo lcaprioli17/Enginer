@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent sensorEvent) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-                if ((sensorEvent.values[0] > 1) || (sensorEvent.values[1] > 1) || (sensorEvent.values[2] > 1)) {
+                if (Math.sqrt(Math.pow(sensorEvent.values[0], 2) + Math.pow(sensorEvent.values[1], 2) + Math.pow(sensorEvent.values[2], 2)) > 1) {
                     startRec();
                     sensorManager.unregisterListener(listener);
                 }
